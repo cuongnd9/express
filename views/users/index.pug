@@ -1,0 +1,9 @@
+html
+	head
+		title Simple Express • #{screenName}
+	body
+		h2(style='color:tomato') Users
+		ul 
+			each user in users
+				li
+					a(href='https://github.com/' + user.name) #{user.name}
