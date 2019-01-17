@@ -3,6 +3,7 @@ html
 		title Simple Express • #{screenName}
 	body
 		h2(style='color:tomato') Users
+		a(href='/users/create') New User
 		form(action='/users/search', method='GET')
 			input(type='text', name='q', value=q)
 			button Search

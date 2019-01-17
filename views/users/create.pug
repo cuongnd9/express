@@ -1,0 +1,9 @@
+html
+	head
+		title Simple Express • #{screenName}
+	body
+		h1(style='color:purple') Create User
+		form(action='/users/create', method='POST')
+			label Name
+			input(type='text', name='name')
+			button Create
