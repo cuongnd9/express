@@ -3,7 +3,10 @@ html
 		title Simple Express • #{screenName}
 	body
 		h2(style='color:tomato') Users
+		form(action='/users/search', method='GET')
+			input(type='text', name='q', value=q)
+			button Search
 		ul 
 			each user in users
 				li
-					a(href='https://github.com/' + user.name) #{user.name}
+					a(href='https://github.com/' + user.name, target='_blank') #{user.name}
