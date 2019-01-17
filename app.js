@@ -1,14 +1,19 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
 const app = express()
 const port = 3000
 
-const users = [
-	{ id: 1, name: 'jade28' },
-	{ id: 2, name: 'ndc07' },
-	{ id: 3, name: 'iamzeng' },
-	{ id: 4, name: 'zeng' }
-]
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+
+// set some defaults
+db.defaults({users: []})
+  .write()
+
+const users = db.get('users').value()
 
 app.set('view engine', 'pug')
 app.set('views', './views')
@@ -39,7 +44,7 @@ app.get('/users/create', (req, res) => {
 })
 
 app.post('/users/create', (req, res) => {
-	users.push(req.body)
+	db.get('users').push(req.body).write()
 	res.redirect('/users')
 })
 
