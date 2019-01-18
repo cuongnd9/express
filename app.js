@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
+const shortid = require('shortid')
 
 const app = express()
 const port = 3000
@@ -10,8 +11,7 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 // set some defaults
-db.defaults({users: []})
-  .write()
+db.defaults({users: []}).write()
 
 const users = db.get('users').value()
 
@@ -43,7 +43,15 @@ app.get('/users/create', (req, res) => {
 	res.render('users/create', { screenName: 'Create User' })
 })
 
+app.get('/users/:id', (req, res) => {
+	var id = req.params.id;
+	var user = db.get('users').find({id: id}).value()
+
+	res.render('users/view', { screenName: 'Detail User', user: user })
+})
+
 app.post('/users/create', (req, res) => {
+	req.body.id = shortid.generate();
 	db.get('users').push(req.body).write()
 	res.redirect('/users')
 })
