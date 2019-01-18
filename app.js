@@ -14,6 +14,6 @@ app.use('/users', userRoute)
 app.set('view engine', 'pug')
 app.set('views', './views')
 
-app.get('/', (req, res) => res.render('index', { screenName: 'Home' }))
+app.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
