@@ -1,8 +1,8 @@
 extends ../layout/common
 block content
-	h4(style='color:purple') Create User
-	form(action='/users/create', method='POST')
-		label Name
-		input.form-control(type='text', name='name')
+	form(action='/users/create', method='POST').col-md-4
+		label(for='name') Name
+		input.form-control(type='text', name='name')#name
+		label(for='email') Email
+		input.form-control(type='text', name='email')#email
 		button.btn.btn-primary.my-2 Create
-	a.btn.btn-secondary(href='/users') Back Users
