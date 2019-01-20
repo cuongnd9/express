@@ -1,5 +1,6 @@
 const db = require('../db')
 const shortid = require('shortid')
+const signale = require('signale')
 
 module.exports.index = (req, res) => res.render('users/index', { 
 	title: 'Users',
