@@ -22,14 +22,35 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.get = (req, res) => {
-	var id = req.params.id;
+	var id = req.params.id
 	var user = db.get('users').find({id: id}).value()
-
-	res.render('users/view', { title: 'Detail User', user: user })
+	res.render('users/view', { 
+		title: 'Detail User', 
+		user: user 
+	})
 }
 
 module.exports.postCreate = (req, res) => {
-	req.body.id = shortid.generate();
+	req.body.id = shortid.generate()
+	var errors = []
+
+	if (!req.body.name) {
+		errors.push('Name is required.')
+	}
+
+	if (!req.body.email) {
+		errors.push('Email is required.')
+	}
+
+	if (errors.length) {
+		res.render('users/create', { 
+			title: 'Create User', 
+			errors: errors,
+			values: req.body
+		})
+		return;
+	}
+
 	db.get('users').push(req.body).write()
 	res.redirect('/users')
 }

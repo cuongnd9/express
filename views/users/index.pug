@@ -3,7 +3,7 @@ block content
 	a(href='/users/create').btn.btn-success.mb-2 New User
 	form.form-inline(action='/users/search', method='GET')
 		input.form-control(type='text', name='q', value=q)
-		button.btn.btn-danger.ml-2 Search
+		button.btn.btn-warning.ml-2 Search
 	table.table.my-2
 		thead
 			tr
@@ -18,4 +18,4 @@ block content
 					td #{user.name}
 					td #{user.email}
 					td 
-						a.btn.btn-info(href='/users/' + user.id) Detail
+						a.btn.btn-primary(href='/users/' + user.id) Detail
