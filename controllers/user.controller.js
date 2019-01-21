@@ -32,25 +32,6 @@ module.exports.get = (req, res) => {
 
 module.exports.postCreate = (req, res) => {
 	req.body.id = shortid.generate()
-	var errors = []
-
-	if (!req.body.name) {
-		errors.push('Name is required.')
-	}
-
-	if (!req.body.email) {
-		errors.push('Email is required.')
-	}
-
-	if (errors.length) {
-		res.render('users/create', { 
-			title: 'Create User', 
-			errors: errors,
-			values: req.body
-		})
-		return;
-	}
-
 	db.get('users').push(req.body).write()
 	res.redirect('/users')
 }
