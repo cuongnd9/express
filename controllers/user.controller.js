@@ -9,7 +9,9 @@ module.exports.index = (req, res) => res.render('users/index', {
 
 module.exports.search = (req, res) => {
 	var q = req.query.q;
-	var mathchedUsers = db.get('users').value().filter(user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1)
+	var mathchedUsers = db.get('users').value().filter(
+		user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1
+	)
 	
 	res.render('users/index', {
 		title: 'Results',
