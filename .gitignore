@@ -8,4 +8,5 @@ package-lock.json
 *.log
 *.gz
 
-db.js
+db.json
+.env
