@@ -1,9 +1,9 @@
 const express = require('express')
 
+const router = express.Router()
+
 const controller = require('../controllers/user.controller')
 const validate = require('../validate/user.validate')
-
-const router = express.Router()
 
 router.get('/', controller.index)
 

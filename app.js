@@ -5,8 +5,9 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const signale = require('signale')
 
-const userRoute = require('./routes/user.route')
 const authRoute = require('./routes/auth.route')
+const userRoute = require('./routes/user.route')
+const productRoute = require('./routes/product.route')
 
 const authMiddleWare = require('./middlewares/auth.middleware')
 
@@ -25,7 +26,8 @@ app.use(express.static('public'))
 
 app.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
-app.use('/users', authMiddleWare.requireAuth, userRoute)
 app.use('/auth', authRoute)
+app.use('/users', authMiddleWare.requireAuth, userRoute)
+app.use('/products', authMiddleWare.requireAuth, productRoute)
 
 app.listen(port, () => signale.debug(`Listening on port ${port}`))
