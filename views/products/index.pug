@@ -8,7 +8,7 @@ block content
 					.card-body
 						h5.card-title= product.name
 						p.card-text= product.description
-						a.btn.btn-primary(href='/products') Add To Cart
+						a.btn.btn-primary(href='/cart/add/' + product.id) Add To Cart
 	if 	pages.length > 0
 		nav(aria-label='Page navigation for products')
 			ul.pagination

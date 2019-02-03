@@ -19,6 +19,9 @@ html
 						span.sr-only (current)
 					a.nav-item.nav-link(href='/users') Users
 					a.nav-item.nav-link(href='/products') Products
+					if !total
+						total = 0
+					a.nav-item.nav-link(href='/cart') Cart • #{total}
 					a.nav-item.nav-link(href='https://github.com/jade28') Contact
 					a.nav-item.nav-link(href='https://github.com/jade28') About
 					if user
