@@ -23,7 +23,8 @@ app.set('views', './views')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET))
-app.use(sessionMiddleware)
+app.use(sessionMiddleware.create)
+app.use(sessionMiddleware.totalProducts)
 
 app.use(express.static('public'))
 app.use('/users', express.static('public'))

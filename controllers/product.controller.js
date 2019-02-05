@@ -25,18 +25,6 @@ module.exports.index = (req, res) => {
 		pages.push(page - 1, page, page + 1)
 	}
 
-	const sessionId = req.signedCookies.sessionId
-	let products = db
-		.get('sessions')
-		.find({ id: sessionId })
-		.value()
-		.cart
-	var total = 0	
-	for (var idProduct in products) {
-		total += products[idProduct]
-	}
-	res.locals.total = total
-
 	res.render('products/index', {
 		title: 'Products',
 		products: db.get('products').value().slice(start, end),
