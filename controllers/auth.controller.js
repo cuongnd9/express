@@ -1,14 +1,18 @@
 const bcrypt = require('bcrypt')
-const db = require('../db')
+
+const User = require('../models/user.model')
 
 module.exports.login = (req, res) => {
 	res.render('auth/login', { title: 'Login' })
 }
 
-module.exports.postLogin = (req, res) => {
+module.exports.postLogin = async (req, res) => {
 	var { email, password } = req.body
 
-	var user = db.get('users').find({ email: email }).value()
+	var user
+	await User
+		.findOne({ email: email })
+		.then(result => user = result)
 
 	if (!user) {
 		res.render('auth/login', {

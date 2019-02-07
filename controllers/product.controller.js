@@ -1,13 +1,14 @@
-const db = require('../db')
+const Product = require('../models/product.model')
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
 	const page = parseInt(req.query.page) || 1
-	const perPage = 12
+	const perPage = 9
 	const start = (page - 1) * perPage
 	const end = page * perPage
 
 	const pages = []
-	const totalItems = db.get('products').value().length
+	var totalItems = 0;
+	await Product.find().then(products => totalItems = products.length)
 	const lastPage = Math.ceil(totalItems / perPage)
 	var disabledPage = 0 // 0: not, -1: previous, 1: next
 
@@ -25,11 +26,13 @@ module.exports.index = (req, res) => {
 		pages.push(page - 1, page, page + 1)
 	}
 
-	res.render('products/index', {
-		title: 'Products',
-		products: db.get('products').value().slice(start, end),
-		pages: pages,
-		activePage: page,
-		disabledPage: disabledPage
+	Product.find().then(products => {
+		res.render('products/index', {
+			title: 'Products',
+			products: products.slice(start, end),
+			pages: pages,
+			activePage: page,
+			disabledPage: disabledPage
+		})
 	})
 }

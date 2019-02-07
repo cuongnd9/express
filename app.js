@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const csrf = require('csurf')
 const signale = require('signale')
+const mongoose = require('mongoose')
+
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
 
 const authRoute = require('./routes/auth.route')
 const userRoute = require('./routes/user.route')
@@ -25,7 +28,6 @@ app.set('views', './views')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET))
-app.use(csrf({ cookie: true }))
 app.use(sessionMiddleware.create)
 app.use(sessionMiddleware.totalProducts)
 
@@ -39,5 +41,6 @@ app.use('/users', authMiddleware.requireAuth, userRoute)
 app.use('/products', productRoute)
 app.use('/cart', cartRoute)
 app.use('/transfer', transferRoute)
+app.use('/transfer/create', csrf({ cookie: true }))
 
 app.listen(port, () => signale.debug(`Listening on port ${port}`))

@@ -1,6 +1,4 @@
-const nanoid = require('nanoid')
-
-const db = require('../db')
+const Transfer = require('../models/transfer.model')
 
 module.exports.create = (req, res) => {
 	res.render('transfer/create', {
@@ -10,14 +8,13 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.postCreate = (req, res) => {
-	const transfer = {
-		id: nanoid(),
+	const transfer = new Transfer({
 		account: req.body.account,
 		amount: parseInt(req.body.amount),
 		userId: req.signedCookies.userId
-	}
+	})
 
-	db.get('transfers').push(transfer).write()
-
-	res.redirect('/transfer/create')
+	transfer.save().then(() => {
+		res.redirect('/transfer/create')
+	})
 }

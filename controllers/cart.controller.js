@@ -1,4 +1,4 @@
-const db = require('../db')
+const Session = require('../models/session.model')
 
 module.exports.addToCart = (req, res, next) => {
 	const productId = req.params.productId
@@ -9,16 +9,27 @@ module.exports.addToCart = (req, res, next) => {
 		return
 	}
 
-	let count = db
-		.get('sessions')
-		.find({ id: sessionId })
-		.get('cart.' + productId, 0)
-		.value()
+	Session
+		.findOne({ id: sessionId })
+		.then(session => {
+			var index;
+			const product = session.cart.find((product, i) => {
+				index = i
+				return product.productId === productId
+			})
+			if (product) {
+				session.cart[index].count += 1
+			} else {
+				session.cart.push({
+					productId: productId,
+					count: 1
+				})
+			}
 
-	db.get('sessions')
-	  .find({ id: sessionId })
-	  .set('cart.' + productId, count + 1)
-	  .write()
-
-	res.redirect('/products')
+			session
+				.save()
+				.then(() => {
+					res.redirect('back')
+				})
+		})
 }
