@@ -1,26 +1,26 @@
 const User = require('../models/user.model')
 
-module.exports.index = (req, res) => {
-	User.find().then(users => {
-		res.render('users/index', { 
-			title: 'Users',
-			users: users
-		})
+module.exports.index = async (req, res) => {
+	const users = await User.find()
+
+	res.render('users/index', { 
+		title: 'Users',
+		users: users
 	})
 }
 
-module.exports.search = (req, res) => {
-	var q = req.query.q;
-	User.find().then(users => {
-		var mathchedUsers = users.filter(
-			user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1
-		)
-		
-		res.render('users/index', {
-			title: 'Results',
-			users: mathchedUsers,
-			q: q
-		})
+module.exports.search = async (req, res) => {
+	const q = req.query.q;
+	const users = await User.find()
+
+	const mathchedUsers = users.filter(
+		user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1
+	)
+	
+	res.render('users/index', {
+		title: 'Results',
+		users: mathchedUsers,
+		q: q
 	})
 }
 
@@ -30,18 +30,19 @@ module.exports.create = (req, res) => {
 	})
 }
 
-module.exports.get = (req, res) => {
-	var id = req.params.id
-	User.find().then(users => {
-		var result = users.find(user => user.id === id)
-		res.render('users/view', { 
-			title: 'Detail User', 
-			user: result 
-		})
+module.exports.get = async (req, res) => {
+	const id = req.params.id
+	const users = await User.find()
+
+	const result = users.find(user => user.id === id)
+
+	res.render('users/view', { 
+		title: 'Detail User', 
+		user: result 
 	})
 }
 
-module.exports.postCreate = (req, res) => {
+module.exports.postCreate = async (req, res) => {
 	const user = new User({
 		name: req.body.name,
 		email: req.body.email,
@@ -49,7 +50,7 @@ module.exports.postCreate = (req, res) => {
 		avatar: req.file.path.split('/').slice(1).join('/')
 	})
 
-	user.save().then(() => {
-		res.redirect('/users')
-	})
+	await user.save()
+
+	res.redirect('/users')
 }

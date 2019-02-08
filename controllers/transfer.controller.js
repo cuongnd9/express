@@ -7,14 +7,14 @@ module.exports.create = (req, res) => {
 	})
 }
 
-module.exports.postCreate = (req, res) => {
+module.exports.postCreate = async (req, res) => {
 	const transfer = new Transfer({
 		account: req.body.account,
 		amount: parseInt(req.body.amount),
 		userId: req.signedCookies.userId
 	})
 
-	transfer.save().then(() => {
-		res.redirect('/transfer/create')
-	})
+	await transfer.save()
+
+	res.redirect('/transfer/create')
 }

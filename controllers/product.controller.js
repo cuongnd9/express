@@ -7,8 +7,7 @@ module.exports.index = async (req, res) => {
 	const end = page * perPage
 
 	const pages = []
-	var totalItems = 0;
-	await Product.find().then(products => totalItems = products.length)
+	const totalItems = (await Product.find()).length
 	const lastPage = Math.ceil(totalItems / perPage)
 	var disabledPage = 0 // 0: not, -1: previous, 1: next
 
@@ -26,13 +25,13 @@ module.exports.index = async (req, res) => {
 		pages.push(page - 1, page, page + 1)
 	}
 
-	Product.find().then(products => {
-		res.render('products/index', {
-			title: 'Products',
-			products: products.slice(start, end),
-			pages: pages,
-			activePage: page,
-			disabledPage: disabledPage
-		})
+	const products = await Product.find()
+
+	res.render('products/index', {
+		title: 'Products',
+		products: products.slice(start, end),
+		pages: pages,
+		activePage: page,
+		disabledPage: disabledPage
 	})
 }

@@ -2,7 +2,7 @@ const nanoid = require('nanoid')
 
 const Session = require('../models/session.model')
 
-module.exports.create = (req, res, next) => {
+module.exports.create = async (req, res, next) => {
 	if (!req.signedCookies.sessionId) {
 		const sessionId = nanoid()
 		res.cookie('sessionId', sessionId, { signed: true })
@@ -10,19 +10,18 @@ module.exports.create = (req, res, next) => {
 			id: sessionId
 		})
 
-		session.save().then(() => next())
+		await session.save()
 	}
+
 	next()
 }
 
 module.exports.totalProducts = async (req, res, next) => {
 	const sessionId = req.signedCookies.sessionId
-	var session;
-	await Session
-		.findOne({ id: sessionId })
-		.then(result => session = result)
+	const session = await Session.findOne({ id: sessionId })
+
 	var total = 0
-	if (session.cart !== null) {
+	if (session) {
 		session.cart.forEach(product => total += product.count)
 	}
 	

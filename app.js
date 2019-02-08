@@ -15,6 +15,8 @@ const productRoute = require('./routes/product.route')
 const cartRoute = require('./routes/cart.route')
 const transferRoute = require('./routes/transfer.route')
 
+const apiProductRoute = require('./api/routes/product.route')
+
 const authMiddleware = require('./middlewares/auth.middleware')
 const sessionMiddleware = require('./middlewares/session.middleware')
 
@@ -42,5 +44,7 @@ app.use('/products', productRoute)
 app.use('/cart', cartRoute)
 app.use('/transfer', transferRoute)
 app.use('/transfer/create', csrf({ cookie: true }))
+
+app.use('/api/products', apiProductRoute)
 
 app.listen(port, () => signale.debug(`Listening on port ${port}`))

@@ -7,12 +7,9 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.postLogin = async (req, res) => {
-	var { email, password } = req.body
+	const { email, password } = req.body
 
-	var user
-	await User
-		.findOne({ email: email })
-		.then(result => user = result)
+	const user = await User.findOne({ email: email })
 
 	if (!user) {
 		res.render('auth/login', {
@@ -25,19 +22,19 @@ module.exports.postLogin = async (req, res) => {
 		return;
 	}
 
-	bcrypt.compare(password, user.password, (err, result) => {
-		if (!result) {
-			res.render('auth/login', {
-				title: 'Login',
-				errors: [
-					'Wrong password.'
-				],
-				values: req.body
-			})
-		return;
-		}
+	const match = await bcrypt.compare(password, user.password)
 
-		res.cookie('userId', user.id, { signed: true })
-		res.redirect('/users')
-	})
+	if (!match) {
+		res.render('auth/login', {
+			title: 'Login',
+			errors: [
+				'Wrong password.'
+			],
+			values: req.body
+		})
+	return;
+	}
+
+	res.cookie('userId', user.id, { signed: true })
+	res.redirect('/users')
 }
