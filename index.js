@@ -4,7 +4,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const csrf = require('csurf')
-const signale = require('signale')
 const mongoose = require('mongoose')
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
@@ -20,7 +19,7 @@ const apiProductRoute = require('./api/routes/product.route')
 const authMiddleware = require('./middlewares/auth.middleware')
 const sessionMiddleware = require('./middlewares/session.middleware')
 
-const port = 3000
+const port = process.env.PORT || 3000
 
 const app = express()
 
@@ -47,4 +46,4 @@ app.use('/transfer/create', csrf({ cookie: true }))
 
 app.use('/api/products', apiProductRoute)
 
-app.listen(port, () => signale.debug(`Listening on port ${port}`))
+app.listen(port, () => console.log(`Listening on port ${port}`))

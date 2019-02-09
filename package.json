@@ -1,22 +1,23 @@
 {
-  "name": "simple-express",
+  "name": "express-starter",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect app.js",
+    "dev": "nodemon --inspect index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jade28/simple-express.git"
+    "url": "git+https://github.com/cuongw/express-starter.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jade28/simple-express/issues"
+    "url": "https://github.com/cuongw/express-starter/issues"
   },
-  "homepage": "https://github.com/jade28/simple-express#readme",
+  "homepage": "https://github.com/cuongw/express-starter#readme",
   "dependencies": {
     "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
@@ -30,7 +31,6 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
-    "signale": "^1.3.0"
+    "nodemon": "^1.18.9"
   }
 }
