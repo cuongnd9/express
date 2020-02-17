@@ -1,4 +1,4 @@
-# Express Starter
+# express
 
 🚀🌱 Getting Started with Express.
 
